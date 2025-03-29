@@ -1,0 +1,6 @@
+apiVersion: hooli.tech/v1alpha1
+kind: NoSQLClaim
+metadata:
+  name: my-nosql-database
+spec:
+  location: "US"

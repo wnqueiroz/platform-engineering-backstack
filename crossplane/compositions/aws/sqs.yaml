@@ -1,0 +1,55 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: sqsqueue
+spec:
+  mode: Pipeline
+  pipeline:
+    - step: patch-and-transform
+      functionRef:
+        name: function-patch-and-transform
+      input:
+        apiVersion: pt.fn.crossplane.io/v1beta1
+        kind: Resources
+        resources:
+          - name: SQSQueue
+            base:
+              apiVersion: sqs.aws.upbound.io/v1beta1
+              kind: Queue
+              metadata:
+                name: crossplane-quickstart-sqs-queue
+              spec:
+                forProvider:
+                  region: us-east-2
+                  tags: {}
+                  visibilityTimeoutSeconds: 30
+                  maxMessageSize: 262144
+                providerConfigRef:
+                  name: default
+            patches:
+              - type: FromCompositeFieldPath
+                fromFieldPath: "spec.location"
+                toFieldPath: "spec.forProvider.region"
+                transforms:
+                  - type: map
+                    map:
+                      EU: "eu-north-1"
+                      US: "us-east-2"
+              - type: FromCompositeFieldPath
+                fromFieldPath: "spec.tags"
+                toFieldPath: "spec.forProvider.tags"
+                policy:
+                  mergeOptions:
+                    strategy: MergeMap
+              - type: FromCompositeFieldPath
+                fromFieldPath: "spec.visibilityTimeoutSeconds"
+                toFieldPath: "spec.forProvider.visibilityTimeoutSeconds"
+              - type: FromCompositeFieldPath
+                fromFieldPath: "spec.maxMessageSize"
+                toFieldPath: "spec.forProvider.maxMessageSize"
+              - type: FromCompositeFieldPath
+                fromFieldPath: "spec.providerName"
+                toFieldPath: "spec.providerConfigRef.name"
+  compositeTypeRef:
+    apiVersion: platform.hooli.tech/v1alpha1
+    kind: SQSQueue

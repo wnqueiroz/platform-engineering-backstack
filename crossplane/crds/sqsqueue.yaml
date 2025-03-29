@@ -1,0 +1,43 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: sqsqueues.platform.hooli.tech
+spec:
+  group: platform.hooli.tech
+  names:
+    kind: SQSQueue
+    plural: sqsqueues
+  versions:
+    - name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                location:
+                  type: string
+                  oneOf:
+                    - pattern: "^EU$"
+                    - pattern: "^US$"
+                tags:
+                  type: object
+                  additionalProperties:
+                    type: string
+                visibilityTimeoutSeconds:
+                  type: integer
+                  minimum: 0
+                maxMessageSize:
+                  type: integer
+                  minimum: 1024
+                providerName:
+                  type: string
+              required:
+                - location
+                - providerName
+      served: true
+      referenceable: true
+  claimNames:
+    kind: SQSQueueClaim
+    plural: sqsqueuesclaim

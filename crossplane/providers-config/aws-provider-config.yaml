@@ -1,0 +1,25 @@
+# @see https://marketplace.upbound.io/providers/upbound/provider-family-aws/v1.18.3/resources/aws.upbound.io/ProviderConfig/v1beta1
+# @see https://docs.localstack.cloud/user-guide/integrations/crossplane/
+apiVersion: aws.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+  namespace: crossplane-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  endpoint:
+    url:
+      type: Static
+      static: http://localstack.localstack-system.svc.cluster.local:4566
+    services: [s3, sqs, ec2, iam, lambda, dynamodb] # the same ones that are in bootstrap/localstack/manifests/deployment.yaml
+  credentials:
+    source: Secret
+    secretRef:
+      namespace: crossplane-system
+      name: aws-secret
+      key: creds
+  skip_credentials_validation: true
+  skip_metadata_api_check: true
+  skip_requesting_account_id: true
+  s3_use_path_style: true

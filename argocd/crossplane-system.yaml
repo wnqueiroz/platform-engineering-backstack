@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: crossplane-system
+  namespace: argocd-system
+spec:
+  project: default
+  source:
+    repoURL: "git@github.com:wnqueiroz/platform-engineering-backstack.git"
+    targetRevision: feature-upstream
+    path: crossplane
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: crossplane-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - SyncWaveOrder=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 1m
+  ignoreDifferences:
+    - group: "hooli.tech"
+      kind: "NoSQL"
+      jsonPointers:
+        - "/metadata"

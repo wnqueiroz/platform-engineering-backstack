@@ -1,0 +1,30 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: nosqls.hooli.tech
+spec:
+  group: hooli.tech
+  names:
+    kind: NoSQL
+    plural: nosqls
+  versions:
+    - name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                location:
+                  type: string
+                  oneOf:
+                    - pattern: "^EU$"
+                    - pattern: "^US$"
+              required:
+                - location
+      served: true
+      referenceable: true
+  claimNames:
+    kind: NoSQLClaim
+    plural: nosqlclaim
