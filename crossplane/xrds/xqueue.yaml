@@ -1,12 +1,12 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: sqsqueues.platform.hooli.tech
+  name: xqueues.platform.hooli.tech
 spec:
   group: platform.hooli.tech
   names:
-    kind: SQSQueue
-    plural: sqsqueues
+    kind: XQueue
+    plural: xqueues
   versions:
     - name: v1alpha1
       schema:
@@ -39,5 +39,5 @@ spec:
       served: true
       referenceable: true
   claimNames:
-    kind: SQSQueueClaim
-    plural: sqsqueuesclaim
+    kind: XQueueClaim
+    plural: xqueuesclaim

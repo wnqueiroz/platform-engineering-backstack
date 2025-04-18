@@ -6,4 +6,4 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-2"
 spec:
-  package: xpkg.upbound.io/upbound/provider-aws-sqs:v1.18.3
+  package: xpkg.upbound.io/upbound/provider-aws-sqs:v1.21.1

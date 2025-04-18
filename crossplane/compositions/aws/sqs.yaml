@@ -1,7 +1,7 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: sqsqueue
+  name: XQueue
 spec:
   mode: Pipeline
   pipeline:
@@ -12,7 +12,7 @@ spec:
         apiVersion: pt.fn.crossplane.io/v1beta1
         kind: Resources
         resources:
-          - name: SQSQueue
+          - name:
             base:
               apiVersion: sqs.aws.upbound.io/v1beta1
               kind: Queue
@@ -52,4 +52,4 @@ spec:
                 toFieldPath: "spec.providerConfigRef.name"
   compositeTypeRef:
     apiVersion: platform.hooli.tech/v1alpha1
-    kind: SQSQueue
+    kind: XQueue

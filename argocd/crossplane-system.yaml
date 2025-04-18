@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: "git@github.com:wnqueiroz/platform-engineering-backstack.git"
-    targetRevision: feature-upstream
+    targetRevision: main
     path: crossplane
     directory:
       recurse: true

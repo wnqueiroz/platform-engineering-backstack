@@ -14,11 +14,6 @@ up: check_bins
 	else \
 		kind create cluster --name platform; \
 	fi
-	@if kind get clusters | grep -q "^apps$$"; then \
-		echo "Cluster 'apps' already exists. Skipping..."; \
-	else \
-		kind create cluster --name apps; \
-	fi
 
 	@./.bootstrap/localstack/up.sh
 	@./.bootstrap/crossplane/up.sh
@@ -37,9 +32,4 @@ down: check_bins
 		kind delete cluster --name platform; \
 	else \
 		echo "Cluster 'platform' not found. Skipping..."; \
-	fi
-	@if kind get clusters | grep -q "^apps$$"; then \
-		kind delete cluster --name apps; \
-	else \
-		echo "Cluster 'apps' not found. Skipping..."; \
 	fi

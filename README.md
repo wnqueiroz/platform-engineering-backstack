@@ -204,7 +204,7 @@ make up
 This command will:
 
 - Check if required dependencies are installed.
-- Create Kubernetes clusters named `platform` and `apps` (if not already present).
+- Create a Kubernetes cluster named `platform` (if it does not already exist).
 - Run bootstrap scripts for LocalStack, Crossplane, Komoplane, and ArgoCD.
 
 To tear down the environment, run:
@@ -216,7 +216,7 @@ make down
 This command will:
 
 - Check if required dependencies are installed.
-- Delete the `platform` and `apps` Kubernetes clusters, if present.
+- Delete the Kubernetes `platform` cluster if it exists.
 
 ### Troubleshooting
 
