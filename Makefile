@@ -15,6 +15,7 @@ up: check_bins
 		kind create cluster --name platform; \
 	fi
 
+	@./.bootstrap/backstage/up.sh
 	@./.bootstrap/localstack/up.sh
 	@./.bootstrap/crossplane/up.sh
 	@./.bootstrap/komoplane/up.sh
@@ -22,8 +23,9 @@ up: check_bins
 
 	@echo
 	@echo "---------------------------------------------------------------------------------------------------------------------------"
-	@echo "Komoplane is accessible at http://localhost:8090"
+	@echo "Backstage is accessible at http://localhost:8070"
 	@echo "Argo CD is accessible at http://localhost:8080"
+	@echo "Komoplane is accessible at http://localhost:8090"
 	@echo "LocalStack is accessible at http://localhost:4566 (Manage through the platform at: https://app.localstack.cloud/instances)"
 
 down: check_bins

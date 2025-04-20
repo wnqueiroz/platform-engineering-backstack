@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backstage-config
+  namespace: backstage-system
+data:
+  POSTGRES_HOST: postgres.backstage-system.svc.cluster.local
+  POSTGRES_PORT: "5432"

@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backstage
+  namespace: backstage-system
+spec:
+  selector:
+    app: backstage
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: backstage-system
+spec:
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
