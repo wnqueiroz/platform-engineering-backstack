@@ -1,0 +1,75 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: create-xqueue-claim
+  title: Create XQueue Claim
+  description: Creates a Crossplane XQueueClaim and opens a PR with the YAML.
+spec:
+  owner: user:guest
+  type: infrastructure
+
+  parameters:
+    - title: Queue Configuration
+      required: [queueName, location, providerName]
+      properties:
+        queueName:
+          type: string
+          title: Queue name
+          pattern: '^[a-z0-9]+(-[a-z0-9]+)*$'
+          description: Must be in kebab-case (e.g. "my-queue-name")
+          errorMessage: Queue name must be in kebab-case, using only lowercase letters, numbers, and hyphens (e.g. "my-queue-name")
+        location:
+          type: string
+          title: Location
+          enum: [EU, US]
+        providerName:
+          type: string
+          title: Provider Name
+        visibilityTimeoutSeconds:
+          type: integer
+          title: Visibility Timeout (s)
+          default: 30
+        maxMessageSize:
+          type: integer
+          title: Max Message Size (bytes)
+          default: 262144
+        tags:
+          type: object
+          title: Tags (optional)
+          description: Key-value tags for the queue
+          additionalProperties:
+            type: string
+          default: {}
+
+  steps:
+    - id: fetch-template
+      name: Render local XQueueClaim template
+      action: fetch:template
+      input:
+        url: ./skeleton
+        targetPath: ./output
+        values:
+          queueName: ${{ parameters.queueName }}
+          location: ${{ parameters.location }}
+          providerName: ${{ parameters.providerName }}
+          visibilityTimeoutSeconds: ${{ parameters.visibilityTimeoutSeconds }}
+          maxMessageSize: ${{ parameters.maxMessageSize }}
+          tags: ${{ parameters.tags }}
+
+    - id: publish-pr
+      name: Publish to GitHub
+      action: publish:github:pull-request
+      input:
+        allowedHosts: ['github.com']
+        repoUrl: github.com?repo=platform-engineering-backstack&owner=wnqueiroz
+        branchName: feature/add-xqueue-${{ parameters.queueName }}
+        title: 'feat(xqueue): add claim for ${{ parameters.queueName }}'
+        description: Created via Backstage scaffolder
+        sourcePath: ./output
+        targetPath: crossplane/claims
+
+  output:
+    links:
+      - title: View Pull Request
+        icon: github
+        url: ${{ steps['publish-pr'].output.remoteUrl }}

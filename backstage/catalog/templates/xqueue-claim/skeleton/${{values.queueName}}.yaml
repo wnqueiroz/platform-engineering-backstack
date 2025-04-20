@@ -1,0 +1,10 @@
+apiVersion: platform.hooli.tech/v1alpha1
+kind: XQueueClaim
+metadata:
+  name: ${{ values.queueName }}
+spec:
+  location: ${{ values.location }}
+  providerName: ${{ values.providerName }}
+  visibilityTimeoutSeconds: ${{ values.visibilityTimeoutSeconds }}
+  maxMessageSize: ${{ values.maxMessageSize }}
+# TODO: add tags later @see https://mozilla.github.io/nunjucks/templating.html#for
