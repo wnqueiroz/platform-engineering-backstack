@@ -1,0 +1,15 @@
+apiVersion: platform.hooli.tech/v1alpha1
+kind: XQueueClaim
+metadata:
+  name: ${{ values.queueName }}
+spec:
+  location: ${{ values.location }}
+  providerName: ${{ values.providerName }}
+  visibilityTimeoutSeconds: ${{ values.visibilityTimeoutSeconds }}
+  maxMessageSize: ${{ values.maxMessageSize }}
+{%- if values.tags %}
+  tags:
+{%- for key, val in values.tags %}
+    ${{ key }}: ${{ val }}
+{%- endfor %}
+{%- endif %}
