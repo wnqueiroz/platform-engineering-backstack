@@ -1,0 +1,9 @@
+apiVersion: platform.hooli.tech/v1alpha1
+kind: XQueueClaim
+metadata:
+  name: {{ queueName }}
+spec:
+  location: {{ location }}
+  providerName: {{ providerName }}
+  visibilityTimeoutSeconds: {{ visibilityTimeoutSeconds }}
+  maxMessageSize: {{ maxMessageSize }}
