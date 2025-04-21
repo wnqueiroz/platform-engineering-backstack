@@ -18,12 +18,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Kyverno CLI
-        run: |
-          curl -LO https://github.com/kyverno/kyverno/releases/download/v1.12.0/kyverno-cli_v1.12.0_linux_x86_64.tar.gz
-          mkdir -p /tmp/kyverno-cli
-          tar -xvf kyverno-cli_v1.12.0_linux_x86_64.tar.gz -C /tmp/kyverno-cli
-          sudo mv /tmp/kyverno-cli/kyverno /usr/local/bin/
-          kyverno version
+        uses: kyverno/action-install-cli@v0.2.0
+        with:
+          release: "v1.13.4"
+
+      - name: Check install
+        run: kyverno version
 
       - name: Run Kyverno policy checks on claims
         run: |
@@ -32,7 +32,7 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
 
           set +e
-          kyverno apply ./kyverno --resource ./crossplane/claims -t --remove-color 2>&1 | tee result.txt
+          kyverno apply ./kyverno --resource ./crossplane/claims 2>&1 | tee result.txt
           KYVERNO_EXIT_CODE=${PIPESTATUS[0]}
           set -e
 
