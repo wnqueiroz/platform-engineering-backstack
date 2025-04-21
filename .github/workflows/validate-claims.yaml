@@ -32,7 +32,7 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
 
           set +e
-          kyverno apply ./kyverno --resource ./crossplane/claims | tee result.txt
+          kyverno apply ./kyverno --resource ./crossplane/claims 2>&1 | tee result.txt
           KYVERNO_EXIT_CODE=${PIPESTATUS[0]}
           set -e
 
