@@ -1,0 +1,27 @@
+name: Validate Crossplane Claims
+
+on:
+  pull_request:
+    paths:
+      - "crossplane/claims/**/*.yaml"
+      - "crossplane/claims/**/*.yml"
+      - "kyverno/**/*.yaml"
+      - "kyverno/**/*.yml"
+
+jobs:
+  validate-claims:
+    name: Validate Claims YAML with Kyverno
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Kyverno CLI
+        run: |
+          curl -sL https://github.com/kyverno/kyverno/releases/latest/download/kyverno-cli_linux_x86_64.tar.gz | tar xz
+          sudo mv kyverno /usr/local/bin/
+
+      - name: Run Kyverno policy checks on claims
+        run: |
+          kyverno apply ./kyverno --resource ./crossplane/claims

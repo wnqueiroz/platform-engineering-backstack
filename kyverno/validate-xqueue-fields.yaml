@@ -1,0 +1,57 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: validate-xqueue-fields
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: deny-invalid-location
+      match:
+        resources:
+          kinds:
+            - platform.hooli.tech/v1alpha1/XQueueClaim
+      validate:
+        message: "Invalid location: only 'EU' or 'US' are allowed in spec.location"
+        deny:
+          conditions:
+            all:
+              - key: "{{ request.object.spec.location }}"
+                operator: AllNotIn
+                value:
+                  - "EU"
+                  - "US"
+
+    - name: deny-invalid-max-message-size
+      match:
+        resources:
+          kinds:
+            - platform.hooli.tech/v1alpha1/XQueueClaim
+      validate:
+        message: "Invalid maxMessageSize: must be between 1024 and 262144 (bytes)"
+        deny:
+          conditions:
+            any:
+              - key: "{{ request.object.spec.maxMessageSize }}"
+                operator: GreaterThan
+                value: 262144
+              - key: "{{ request.object.spec.maxMessageSize }}"
+                operator: LessThan
+                value: 1024
+
+    - name: deny-invalid-visibility-timeout
+      match:
+        resources:
+          kinds:
+            - platform.hooli.tech/v1alpha1/XQueueClaim
+      validate:
+        message: "Invalid visibilityTimeoutSeconds: must be between 0 and 43200 (seconds)"
+        deny:
+          conditions:
+            any:
+              - key: "{{ request.object.spec.visibilityTimeoutSeconds }}"
+                operator: GreaterThan
+                value: 43200
+              - key: "{{ request.object.spec.visibilityTimeoutSeconds }}"
+                operator: LessThan
+                value: 0
