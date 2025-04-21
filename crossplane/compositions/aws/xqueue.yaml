@@ -1,7 +1,7 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: xqueue
+  name: xqueues.aws.platform.hooli.tech
 spec:
   mode: Pipeline
   pipeline:
@@ -12,7 +12,7 @@ spec:
         apiVersion: pt.fn.crossplane.io/v1beta1
         kind: Resources
         resources:
-          - name:
+          - name: MainQueue
             base:
               apiVersion: sqs.aws.upbound.io/v1beta1
               kind: Queue
