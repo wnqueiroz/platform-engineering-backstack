@@ -64,5 +64,18 @@ while ! check_providers_health; do
     ELAPSED=$((ELAPSED + INTERVAL))
 done
 
+# TODO: remove this later. The Argo CD must be sync this
+echo "Applying provider configs..."
+kubectl apply -f "$BASE_DIR/providers-config" --recursive --namespace "$NS"
+
+echo "Applying functions..."
+kubectl apply -f "$BASE_DIR/functions" --recursive --namespace "$NS"
+
+echo "Applying xrds..."
+kubectl apply -f "$BASE_DIR/xrds" --recursive --namespace "$NS"
+
+echo "Applying compositions..."
+kubectl apply -f "$BASE_DIR/compositions" --recursive --namespace "$NS"
+
 echo "All providers are healthy!"
 echo "✅ Crossplane setup completed successfully!"

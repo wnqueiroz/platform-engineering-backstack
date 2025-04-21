@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: crossplane-claims
+  namespace: argocd-system
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:wnqueiroz/platform-engineering-backstack.git
+    targetRevision: main
+    path: crossplane/claims
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: crossplane-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
