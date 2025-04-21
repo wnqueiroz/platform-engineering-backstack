@@ -17,10 +17,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Kyverno CLI
+      - name: Install Kyverno CLI
         run: |
-          curl -sL https://github.com/kyverno/kyverno/releases/latest/download/kyverno-cli_linux_x86_64.tar.gz | tar xz
+          curl -LO https://github.com/kyverno/kyverno/releases/download/v1.12.0/kyverno-cli_v1.12.0_linux_x86_64.tar.gz
+          tar -xvf kyverno-cli_v1.12.0_linux_x86_64.tar.gz
           sudo mv kyverno /usr/local/bin/
+          kyverno version
 
       - name: Run Kyverno policy checks on claims
         run: |
