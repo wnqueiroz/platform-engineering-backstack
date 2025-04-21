@@ -1,0 +1,17 @@
+apiVersion: platform.hooli.tech/v1alpha1
+kind: XQueueClaim
+metadata:
+  name: lorem-ipsum
+spec:
+  location: EU
+  providerName: default
+  visibilityTimeoutSeconds: 30
+  maxMessageSize: 262144
+
+  tags:
+  
+    {{ key }}: {{ val }}
+  
+    {{ key }}: {{ val }}
+  
+
