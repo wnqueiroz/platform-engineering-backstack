@@ -13,7 +13,7 @@ fi
 NS=crossplane-system
 BASE_DIR=./crossplane
 MANIFESTS_DIR="$(dirname "$0")/manifests"
-REQUIRED_PROVIDERS=("provider-kubernetes" "provider-aws-s3" "provider-aws-sqs" "provider-aws-dynamodb")
+REQUIRED_PROVIDERS=("provider-kubernetes" "provider-aws-sqs")
 TIMEOUT=600
 INTERVAL=5
 ELAPSED=0
