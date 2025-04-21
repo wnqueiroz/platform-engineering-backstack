@@ -1,36 +1,48 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Application
+kind: ApplicationSet
 metadata:
   name: crossplane-system
   namespace: argocd-system
 spec:
-  project: default
-  source:
-    repoURL: "git@github.com:wnqueiroz/platform-engineering-backstack.git"
-    targetRevision: feature-argocd # TODO: change to main
-    path: crossplane
-    kustomize: {}
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: crossplane-system
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - SyncWaveOrder=true
-    retry:
-      limit: 5
-      backoff:
-        duration: 5s
-        factor: 2
-        maxDuration: 1m
-  ignoreDifferences:
-    - group: "hooli.tech"
-      kind: "XQueueClaim"
-      jsonPointers:
-        - "/metadata"
-    - group: "hooli.tech"
-      kind: "XQueue"
-      jsonPointers:
-        - "/metadata"
+  generators:
+    - list:
+        elements:
+          - name: providers
+            path: crossplane/providers
+            wave: "0"
+          - name: providers-config
+            path: crossplane/providers-config
+            wave: "1"
+          - name: functions
+            path: crossplane/functions
+            wave: "2"
+          - name: compositions
+            path: crossplane/compositions/aws
+            wave: "3"
+          - name: xrds
+            path: crossplane/xrds
+            wave: "4"
+          - name: claims
+            path: crossplane/claims
+            wave: "5"
+
+  template:
+    metadata:
+      name: crossplane-{{name}}
+      annotations:
+        argocd.argoproj.io/sync-wave: "{{wave}}"
+    spec:
+      project: default
+      source:
+        repoURL: git@github.com:wnqueiroz/platform-engineering-backstack.git
+        targetRevision: feature-argocd # TODO: change to main
+        path: "{{path}}"
+        directory:
+          recurse: true
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: crossplane-system
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

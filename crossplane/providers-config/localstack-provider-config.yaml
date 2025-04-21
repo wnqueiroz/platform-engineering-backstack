@@ -5,8 +5,6 @@ kind: ProviderConfig
 metadata:
   name: default
   namespace: crossplane-system
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
   endpoint:
     url:

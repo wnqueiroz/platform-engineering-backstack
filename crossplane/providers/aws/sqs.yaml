@@ -3,7 +3,5 @@ kind: Provider
 metadata:
   name: provider-aws-sqs
   namespace: crossplane-system
-  annotations:
-    argocd.argoproj.io/sync-wave: "-2"
 spec:
   package: xpkg.upbound.io/upbound/provider-aws-sqs:v1.21.1
