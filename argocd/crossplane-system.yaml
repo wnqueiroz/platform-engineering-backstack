@@ -7,10 +7,9 @@ spec:
   project: default
   source:
     repoURL: "git@github.com:wnqueiroz/platform-engineering-backstack.git"
-    targetRevision: main
+    targetRevision: feature-argocd # TODO: change to main
     path: crossplane
-    directory:
-      recurse: true
+    kustomize: {}
   destination:
     server: https://kubernetes.default.svc
     namespace: crossplane-system
@@ -28,6 +27,10 @@ spec:
         maxDuration: 1m
   ignoreDifferences:
     - group: "hooli.tech"
-      kind: "NoSQL"
+      kind: "XQueueClaim"
+      jsonPointers:
+        - "/metadata"
+    - group: "hooli.tech"
+      kind: "XQueue"
       jsonPointers:
         - "/metadata"
