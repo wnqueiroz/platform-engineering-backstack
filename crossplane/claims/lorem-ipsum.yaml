@@ -3,7 +3,7 @@ kind: XQueueClaim
 metadata:
   name: lorem-ipsum
 spec:
-  location: LOREM
+  location: US
   providerName: default
   visibilityTimeoutSeconds: 30
   maxMessageSize: 262144
