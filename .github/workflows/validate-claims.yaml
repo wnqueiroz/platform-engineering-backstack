@@ -27,4 +27,18 @@ jobs:
 
       - name: Run Kyverno policy checks on claims
         run: |
-          kyverno apply ./kyverno --resource ./crossplane/claims
+          echo "## 🛡️ Kyverno Policy Validation Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+          if kyverno apply ./kyverno --resource ./crossplane/claims | tee result.txt; then
+            echo "✅ All policies passed." >> $GITHUB_STEP_SUMMARY
+          else
+            cat result.txt >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "❌ One or more Kyverno policies failed." >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+
+          echo '```' >> $GITHUB_STEP_SUMMARY
