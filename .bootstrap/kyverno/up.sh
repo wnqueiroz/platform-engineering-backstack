@@ -13,7 +13,7 @@ fi
 NS=kyverno-system
 KYVERNO_CHART=kyverno/kyverno
 POLICIES_DIR=./kyverno
-TIMEOUT=120
+TIMEOUT=240
 INTERVAL=5
 ELAPSED=0
 

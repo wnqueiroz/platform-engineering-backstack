@@ -20,6 +20,7 @@ up: check_bins
 	@./.bootstrap/crossplane/up.sh
 	@./.bootstrap/komoplane/up.sh
 	@./.bootstrap/argocd/up.sh
+	@./.bootstrap/kyverno/up.sh
 
 	@echo
 	@echo "---------------------------------------------------------------------------------------------------------------------------"
