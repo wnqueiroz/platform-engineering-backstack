@@ -28,17 +28,13 @@ else
     echo "✅ Namespace $NS already exists."
 fi
 
-# Build Docker image only if it doesn't already exist
-if ! docker image inspect "$IMAGE" >/dev/null 2>&1; then
-    echo "Building Backstage image $IMAGE..."
-    cd "./backstage"
-    yarn build:all
-    yarn build-image --tag "$IMAGE" --no-cache
-    kind load docker-image "$IMAGE" --name "$CLUSTER_NAME"
-    cd ..
-else
-    echo "✅ Docker image $IMAGE already exists. Skipping build."
-fi
+echo "Building Backstage image $IMAGE..."
+cd ./backstage
+docker rmi -f $IMAGE
+yarn build:all
+yarn build-image --tag "$IMAGE" --no-cache
+kind load docker-image "$IMAGE" --name "$CLUSTER_NAME"
+cd ..
 
 # Apply manifests to the cluster (idempotent)
 echo "Applying manifests from $MANIFESTS_DIR..."

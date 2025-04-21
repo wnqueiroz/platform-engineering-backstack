@@ -4,5 +4,6 @@ metadata:
   name: backstage-config
   namespace: backstage-system
 data:
+  NODE_OPTIONS: --no-node-snapshot
   POSTGRES_HOST: postgres.backstage-system.svc.cluster.local
   POSTGRES_PORT: "5432"
