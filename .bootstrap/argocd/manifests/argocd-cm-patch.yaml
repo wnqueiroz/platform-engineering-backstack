@@ -1,0 +1,49 @@
+# @see https://docs.crossplane.io/latest/guides/crossplane-with-argo-cd
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd-system
+data:
+  application.resourceTrackingMethod: annotation
+  resource.customizations: |
+    "*.upbound.io/*":
+      health.lua: |
+        health_status = {
+          status = "Progressing",
+          message = "Provisioning ..."
+        }
+
+        local function contains (table, val)
+          for i, v in ipairs(table) do
+            if v == val then
+              return true
+            end
+          end
+          return false
+        end
+
+        local has_no_status = {
+          "ProviderConfig",
+          "ProviderConfigUsage"
+        }
+
+        if obj.status == nil or next(obj.status) == nil and contains(has_no_status, obj.kind) then
+          health_status.status = "Healthy"
+          health_status.message = "Resource is up-to-date."
+          return health_status
+        end
+
+        if obj.status == nil or next(obj.status) == nil or obj.status.conditions == nil then
+          if obj.kind == "ProviderConfig" and obj.status.users ~= nil then
+            health_status.status = "Healthy"
+            health_status.message = "Resource is in use."
+            return health_status
+          end
+          return health_status
+        end
+  resource.exclusions: |
+    - apiGroups:
+      - "*"
+      kinds:
+      - ProviderConfigUsage

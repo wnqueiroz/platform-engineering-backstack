@@ -11,7 +11,7 @@ if [[ "$(kubectl config current-context)" != "kind-platform" ]]; then
 fi
 
 NS=argocd-system
-BASE_DIR=./argocd
+BASE_DIR="$(dirname "$0")"
 MANIFESTS_DIR="$BASE_DIR/manifests"
 PORT=8080
 ARGO_PWD_NEW="12345678"
@@ -31,6 +31,10 @@ kubectl wait --for=condition=available --timeout=120s deployment/argocd-server -
     echo "Argo CD deployment is not ready"
     exit 1
 }
+
+kubectl patch configmap argocd-cm -n $NS --patch-file $MANIFESTS_DIR/argocd-cm-patch.yaml
+kubectl rollout restart deployment argocd-server -n $NS
+kubectl rollout status deployment argocd-server -n $NS
 
 # Start port-forward only if not already active
 if ! lsof -i TCP:$PORT >/dev/null 2>&1; then
@@ -81,6 +85,6 @@ fi
 
 # Apply Argo CD applications or configs
 echo "Applying Argo CD manifests..."
-kubectl apply -f "$BASE_DIR/crossplane-claims.yaml"
+kubectl apply -f "./argocd/crossplane-claims.yaml"
 
 echo "✅ Argo CD setup completed successfully!"

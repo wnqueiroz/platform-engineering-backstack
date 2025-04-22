@@ -18,3 +18,9 @@ spec:
     automated:
       prune: true
       selfHeal: true
+  # ignoreDifferences:
+  #   - group: platform.hooli.tech
+  #     kind: XQueue
+  #     jsonPointers:
+  #       - /spec
+  #       - /status
