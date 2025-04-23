@@ -3,6 +3,10 @@ kind: Deployment
 metadata:
   name: backstage
   namespace: backstage-system
+  labels:
+    app: backstage
+    backstage.io/kubernetes-id: backstage
+    backstage.io/kubernetes-namespace: backstage-system
 spec:
   replicas: 1
   selector:
@@ -13,7 +17,9 @@ spec:
       labels:
         app: backstage
         backstage.io/kubernetes-id: backstage
+        backstage.io/kubernetes-namespace: backstage-system
     spec:
+      serviceAccountName: backstage-user
       containers:
         - name: backstage
           image: backstage:latest
@@ -28,12 +34,22 @@ spec:
                 name: postgres-secrets
             - secretRef:
                 name: backstage-secrets
+          env:
+            - name: SERVICE_ACCOUNT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: backstage-token
+                  key: token
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
   namespace: backstage-system
+  labels:
+    app: postgres
+    backstage.io/kubernetes-id: backstage-postgres
+    backstage.io/kubernetes-namespace: backstage-system
 spec:
   replicas: 1
   selector:
@@ -43,7 +59,8 @@ spec:
     metadata:
       labels:
         app: postgres
-        backstage.io.kubernetes-id: backstage-postgres
+        backstage.io/kubernetes-id: backstage-postgres
+        backstage.io/kubernetes-namespace: backstage-system
     spec:
       containers:
         - name: postgres

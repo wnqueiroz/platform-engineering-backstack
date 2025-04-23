@@ -5,7 +5,7 @@ metadata:
   title: Create XQueue Claim
   description: Creates a Crossplane XQueueClaim and opens a PR with the YAML.
 spec:
-  owner: user:guest
+  owner: guests
   type: infrastructure
 
   parameters:

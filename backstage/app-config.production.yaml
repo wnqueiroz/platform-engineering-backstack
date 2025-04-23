@@ -53,11 +53,13 @@ catalog:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
-    - allow: ['*']
+    - allow: [Component, System, API, Resource, Location]
   locations:
     # All Templates
     - type: url
       target: https://github.com/wnqueiroz/platform-engineering-backstack/blob/main/backstage/catalog/all.yaml
+      rules:
+        - allow: [Template, System, User, Group]
 
   # Experimental: Always use the search method in UrlReaderProcessor.
   # New adopters are encouraged to enable it as this behavior will be the default in a future release.
@@ -65,6 +67,9 @@ catalog:
 
 kubernetes:
   # see https://backstage.io/docs/features/kubernetes/configuration for kubernetes configuration options
+  frontend:
+    podDelete:
+      enabled: true
   serviceLocatorMethod:
     type: 'multiTenant'
   clusterLocatorMethods:
@@ -76,3 +81,4 @@ kubernetes:
           skipTLSVerify: true
           skipMetricsLookup: true
           serviceAccountToken: ${SERVICE_ACCOUNT_TOKEN}
+          serviceAccountNamespace: backstage-system

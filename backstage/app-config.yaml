@@ -76,11 +76,13 @@ catalog:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
-    - allow: ['*']
+    - allow: [Component, System, API, Resource, Location]
   locations:
     # All Templates
     - type: url
       target: https://github.com/wnqueiroz/platform-engineering-backstack/blob/main/backstage/catalog/all.yaml
+      rules:
+        - allow: [Template, System, User, Group]
 
     # Local example data, file locations are relative to the backend process, typically `packages/backend`
     - type: file
@@ -113,6 +115,9 @@ catalog:
 
 kubernetes:
   # see https://backstage.io/docs/features/kubernetes/configuration for kubernetes configuration options
+  frontend:
+    podDelete:
+      enabled: true
   serviceLocatorMethod:
     type: 'multiTenant'
   clusterLocatorMethods:
@@ -124,6 +129,7 @@ kubernetes:
           skipTLSVerify: true
           skipMetricsLookup: true
           serviceAccountToken: ${SERVICE_ACCOUNT_TOKEN}
+          serviceAccountNamespace: backstage-system
 
 # see https://backstage.io/docs/permissions/getting-started for more on the permission framework
 permission:
