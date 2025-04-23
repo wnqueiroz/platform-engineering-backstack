@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: backstage-system
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: backstage-user
+  namespace: backstage-system
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backstage-token
+  namespace: backstage-system
+  annotations:
+    kubernetes.io/service-account.name: backstage-user
+type: kubernetes.io/service-account-token
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: backstage-kubernetes-ingestor-rbac
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view
+subjects:
+  - kind: ServiceAccount
+    name: backstage-user
+    namespace: backstage-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: backstage-crd-viewer
+rules:
+  - apiGroups:
+      - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
+    verbs:
+      - get
+      - list
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: backstage-crossplane-ingestion-crd-rbac
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: backstage-crd-viewer
+subjects:
+  - kind: ServiceAccount
+    name: backstage-user
+    namespace: backstage-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: backstage-crossplane-ingestion-rbac
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: crossplane-view
+subjects:
+  - kind: ServiceAccount
+    name: backstage-user
+    namespace: backstage-system

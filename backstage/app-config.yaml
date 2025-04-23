@@ -80,13 +80,11 @@ catalog:
   locations:
     # All Templates
     - type: url
-      target: https://github.com/wnqueiroz/platform-engineering-backstack/blob/main/backstage/catalog/all-templates.yaml
-      rules:
-        - allow: [Template]
+      target: https://github.com/wnqueiroz/platform-engineering-backstack/blob/main/backstage/catalog/all.yaml
 
     # Local example data, file locations are relative to the backend process, typically `packages/backend`
-    # - type: file
-    #   target: ../../examples/entities.yaml
+    - type: file
+      target: ../../catalog/components.yaml
 
     # # Local example template
     # - type: file
@@ -94,11 +92,11 @@ catalog:
     #   rules:
     #     - allow: [Template]
 
-    # # Local example organizational data
-    # - type: file
-    #   target: ../../examples/org.yaml
-    #   rules:
-    #     - allow: [User, Group]
+    # Local example organizational data
+    - type: file
+      target: ../../examples/org.yaml
+      rules:
+        - allow: [User, Group]
 
     ## Uncomment these lines to add more example data
     # - type: url
@@ -115,8 +113,20 @@ catalog:
 
 kubernetes:
   # see https://backstage.io/docs/features/kubernetes/configuration for kubernetes configuration options
+  serviceLocatorMethod:
+    type: 'multiTenant'
+  clusterLocatorMethods:
+    - type: 'config'
+      clusters:
+        - url: https://127.0.0.1:52484
+          name: kind
+          authProvider: 'serviceAccount'
+          skipTLSVerify: true
+          skipMetricsLookup: true
+          serviceAccountToken: ${SERVICE_ACCOUNT_TOKEN}
 
 # see https://backstage.io/docs/permissions/getting-started for more on the permission framework
 permission:
   # setting this to `false` will disable permissions
   enabled: true
+# TODO: configurar a ingestão de Claims do Crossplane

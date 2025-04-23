@@ -24,7 +24,7 @@ up: check_bins
 
 	@echo
 	@echo "---------------------------------------------------------------------------------------------------------------------------"
-	@echo "Backstage is accessible at http://localhost:8070"
+	@echo "Backstage is accessible at http://localhost:3000"
 	@echo "Argo CD is accessible at http://localhost:8080"
 	@echo "Komoplane is accessible at http://localhost:8090"
 	@echo "LocalStack is accessible at http://localhost:4566 (Manage through the platform at: https://app.localstack.cloud/instances)"

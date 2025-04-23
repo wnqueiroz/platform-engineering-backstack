@@ -6,8 +6,8 @@ set -euo pipefail
 NS=backstage-system
 BASE_DIR="$(dirname "$0")"
 MANIFESTS_DIR="$BASE_DIR/manifests"
-PORT=8070
-IMAGE="backstage:1.0.0"
+PORT=3000
+IMAGE="backstage:latest"
 CLUSTER_NAME="platform"
 CONTEXT_NAME="kind-${CLUSTER_NAME}"
 
@@ -44,6 +44,21 @@ kind load docker-image "$IMAGE" --name "$CLUSTER_NAME"
 # Apply manifests to the cluster (idempotent)
 echo "Applying manifests from $MANIFESTS_DIR..."
 kubectl apply -f "$MANIFESTS_DIR" --recursive --namespace "$NS"
+
+# Wait for the ServiceAccount Secret to be created
+echo "Waiting for backstage-token to be created..."
+until kubectl get secret -n "$NS" backstage-token >/dev/null 2>&1; do
+    sleep 1
+done
+
+# Injecting SERVICE_ACCOUNT_TOKEN into backstage-secrets...
+echo "Injecting SERVICE_ACCOUNT_TOKEN into backstage-secrets..."
+SERVICE_ACCOUNT_TOKEN=$(kubectl get secret -n "$NS" backstage-token -o jsonpath='{.data.token}' | base64 --decode)
+
+kubectl patch secret backstage-secrets \
+    -n "$NS" \
+    --type='merge' \
+    -p "{\"data\": {\"SERVICE_ACCOUNT_TOKEN\": \"$(echo -n "$SERVICE_ACCOUNT_TOKEN" | base64)\"}}"
 
 # Wait for postgres deployment to be ready
 echo "Waiting for postgres deployment to be ready..."

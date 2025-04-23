@@ -1,0 +1,37 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: backstage
+  description: Represents the Backstage developer portal ecosystem
+spec:
+  owner: guests
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage
+  description: Backstage is an internal developer portal that centralizes software components, documentation, and tools to streamline developer workflows.
+  annotations:
+    backstage.io/kubernetes-id: backstage
+  links:
+    - url: http://localhost:3000
+      title: Backstage UI
+      icon: dashboard
+spec:
+  type: service
+  lifecycle: production
+  owner: guests
+  system: backstage
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-postgres
+  description: PostgreSQL database instance used to persist Backstage metadata and catalog information.
+  annotations:
+    backstage.io/kubernetes-id: backstage-postgres
+spec:
+  type: service
+  lifecycle: production
+  owner: guests
+  system: backstage

@@ -12,10 +12,11 @@ spec:
     metadata:
       labels:
         app: backstage
+        backstage.io/kubernetes-id: backstage
     spec:
       containers:
         - name: backstage
-          image: backstage:1.0.0
+          image: backstage:latest
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -42,6 +43,7 @@ spec:
     metadata:
       labels:
         app: postgres
+        backstage.io.kubernetes-id: backstage-postgres
     spec:
       containers:
         - name: postgres
@@ -57,11 +59,3 @@ spec:
               value: postgres.backstage-system
             - name: POSTGRES_PORT
               value: "5432"
-      #     volumeMounts:
-      #       - mountPath: /var/lib/postgresql/data
-      #         name: postgresdb
-      #         subPath: data
-      # volumes:
-      #   - name: postgresdb
-      #     persistentVolumeClaim:
-      #       claimName: postgres-storage-claim

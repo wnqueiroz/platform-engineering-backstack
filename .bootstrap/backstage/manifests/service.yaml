@@ -3,6 +3,9 @@ kind: Service
 metadata:
   name: backstage
   namespace: backstage-system
+  labels:
+    app: backstage
+    backstage.io/kubernetes-id: backstage
 spec:
   selector:
     app: backstage
@@ -16,6 +19,9 @@ kind: Service
 metadata:
   name: postgres
   namespace: backstage-system
+  labels:
+    app: postgres
+    backstage.io/kubernetes-id: backstage-postgres
 spec:
   selector:
     app: postgres
