@@ -7,6 +7,12 @@
  */
 
 import { createBackend } from '@backstage/backend-defaults';
+import {
+  coreServices,
+  createBackendModule,
+} from '@backstage/backend-plugin-api';
+import { catalogProcessingExtensionPoint } from '@backstage/plugin-catalog-node/alpha';
+import { CrossplaneEntityProvider } from './crossplane-entity-provider';
 
 const backend = createBackend();
 
@@ -51,5 +57,38 @@ backend.add(import('@backstage/plugin-search-backend-module-techdocs'));
 
 // kubernetes
 backend.add(import('@backstage/plugin-kubernetes-backend'));
+
+export const crossplaneIngestor = createBackendModule({
+  pluginId: 'catalog',
+  moduleId: 'crossplane-ingestor',
+  register(env) {
+    env.registerInit({
+      deps: {
+        config: coreServices.rootConfig,
+        catalog: catalogProcessingExtensionPoint,
+        scheduler: coreServices.scheduler,
+        logger: coreServices.logger,
+      },
+      async init({ catalog, scheduler, logger, config }) {
+        logger.info('Starting crossplane ingestor');
+
+        const taskRunner = scheduler.createScheduledTaskRunner({
+          frequency: { seconds: 10 },
+          timeout: { minutes: 10 },
+        });
+
+        const entityProvider = new CrossplaneEntityProvider({
+          logger,
+          config,
+          taskRunner,
+        });
+
+        catalog.addEntityProvider(entityProvider);
+      },
+    });
+  },
+});
+
+backend.add(crossplaneIngestor);
 
 backend.start();

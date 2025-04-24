@@ -2,7 +2,15 @@ apiVersion: backstage.io/v1alpha1
 kind: System
 metadata:
   name: backstage
-  description: Represents the Backstage developer portal ecosystem
+  description: Represents the Backstage developer portal ecosystem.
+spec:
+  owner: guests
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: infrastructure
+  description: Manages infrastructure resources provisioned through Crossplane across environments and cloud accounts.
 spec:
   owner: guests
 ---

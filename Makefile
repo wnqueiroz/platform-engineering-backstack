@@ -22,6 +22,8 @@ up: check_bins
 	@./.bootstrap/argocd/up.sh
 	@./.bootstrap/kyverno/up.sh
 
+	@make setup-local-config
+
 	@echo
 	@echo "---------------------------------------------------------------------------------------------------------------------------"
 	@echo "Backstage is accessible at http://localhost:3000"
@@ -36,3 +38,12 @@ down: check_bins
 	else \
 		echo "Cluster 'platform' not found. Skipping..."; \
 	fi
+
+setup-local-config: check_bins
+	@echo "Updating app-config.local.yaml..."
+	@test -f backstage/app-config.local.yaml || echo "{}" > backstage/app-config.local.yaml
+	@export SERVICE_ACCOUNT_TOKEN=$$(kubectl get secret -n backstage-system backstage-token -o jsonpath='{.data.token}' | base64 --decode); \
+	export CLUSTER_URL=$$(kubectl cluster-info | grep 'Kubernetes control plane' | awk '{print $$NF}'); \
+	FILE="backstage/app-config.local.yaml"; \
+	yq -i '.kubernetes.clusterLocatorMethods[0].clusters[0].serviceAccountToken = strenv(SERVICE_ACCOUNT_TOKEN)' $$FILE; \
+	yq -i '.kubernetes.clusterLocatorMethods[0].clusters[0].url = strenv(CLUSTER_URL)' $$FILE

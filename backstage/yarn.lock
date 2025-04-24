@@ -7424,6 +7424,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@kubernetes/client-node@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "@kubernetes/client-node@npm:1.1.2"
+  dependencies:
+    "@types/js-yaml": "npm:^4.0.1"
+    "@types/node": "npm:^22.0.0"
+    "@types/node-fetch": "npm:^2.6.9"
+    "@types/stream-buffers": "npm:^3.0.3"
+    "@types/tar": "npm:^6.1.1"
+    "@types/ws": "npm:^8.5.4"
+    form-data: "npm:^4.0.0"
+    hpagent: "npm:^1.2.0"
+    isomorphic-ws: "npm:^5.0.0"
+    js-yaml: "npm:^4.1.0"
+    jsonpath-plus: "npm:^10.3.0"
+    node-fetch: "npm:^2.6.9"
+    openid-client: "npm:^6.1.3"
+    rfc4648: "npm:^1.3.0"
+    socks-proxy-agent: "npm:^8.0.4"
+    stream-buffers: "npm:^3.0.2"
+    tar: "npm:^7.0.0"
+    tmp-promise: "npm:^3.0.2"
+    ws: "npm:^8.18.0"
+  checksum: 10c0/8fc57c9598decdb17c20cc7d3196e5d16049cfdc581b0fbf73446525681b6e0d1e1ce76d00863b400870cd137ddc6a41ff5cdf139578e0fe9418264c132ef6dc
+  languageName: node
+  linkType: hard
+
 "@leichtgewicht/ip-codec@npm:^2.0.1":
   version: 2.0.5
   resolution: "@leichtgewicht/ip-codec@npm:2.0.5"
@@ -14576,6 +14603,7 @@ __metadata:
     "@backstage/plugin-search-backend-module-techdocs": "npm:^0.4.1"
     "@backstage/plugin-search-backend-node": "npm:^1.3.10"
     "@backstage/plugin-techdocs-backend": "npm:^2.0.1"
+    "@kubernetes/client-node": "npm:^1.1.2"
     app: "link:../app"
     better-sqlite3: "npm:^9.0.0"
     node-gyp: "npm:^10.0.0"
@@ -22114,6 +22142,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jose@npm:^6.0.10":
+  version: 6.0.10
+  resolution: "jose@npm:6.0.10"
+  checksum: 10c0/d1327afd7fe6011a6648b570b8a220dd89c3d427d6fb3225825650df3249b58bf0f76494179a34a0f7ad185832fb083d6402092d3c7f880c677d0dd38cc75eae
+  languageName: node
+  linkType: hard
+
 "js-base64@npm:^3.6.0":
   version: 3.7.7
   resolution: "js-base64@npm:3.7.7"
@@ -25145,6 +25180,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"oauth4webapi@npm:^3.4.1":
+  version: 3.5.0
+  resolution: "oauth4webapi@npm:3.5.0"
+  checksum: 10c0/383a98ccd7423cd3f0c4f288b206731c85ec2f606a8700ec4094e977b668fc06756dd6ff37420143799b26c13e84e662ea02ceb32ea8c7c2d476eed809361d13
+  languageName: node
+  linkType: hard
+
 "oauth@npm:0.10.x":
   version: 0.10.2
   resolution: "oauth@npm:0.10.2"
@@ -25455,6 +25497,16 @@ __metadata:
     object-hash: "npm:^2.2.0"
     oidc-token-hash: "npm:^5.0.3"
   checksum: 10c0/6aae649758562002eace7574b6eda02be7eddbb0df61eef497ae98b7a4a0ae4c6b09f3f0c1b9b6cb7fcc0c70bbde2576691bf31b870db1f19ab634c1def10bc7
+  languageName: node
+  linkType: hard
+
+"openid-client@npm:^6.1.3":
+  version: 6.4.2
+  resolution: "openid-client@npm:6.4.2"
+  dependencies:
+    jose: "npm:^6.0.10"
+    oauth4webapi: "npm:^3.4.1"
+  checksum: 10c0/a291933d571c1b2904c65f142ef79737094c31594a58a237df4813abe315385981122b668d5a6dc44bb0e079e1fe6dd6a3d974814bd9f75f8be08dac91cd227e
   languageName: node
   linkType: hard
 
@@ -29331,7 +29383,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"socks-proxy-agent@npm:^8.0.3, socks-proxy-agent@npm:^8.0.5":
+"socks-proxy-agent@npm:^8.0.3, socks-proxy-agent@npm:^8.0.4, socks-proxy-agent@npm:^8.0.5":
   version: 8.0.5
   resolution: "socks-proxy-agent@npm:8.0.5"
   dependencies:
