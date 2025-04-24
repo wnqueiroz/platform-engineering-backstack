@@ -24,9 +24,11 @@ _A ready-to-use environment for modern platform engineering experimentation, com
 - [Motivation ✨](#motivation-)
 - [Stack](#stack)
 - [Prerequisites](#prerequisites)
-- [Up & Running](#up--running)
+- [Up \& Running](#up--running)
   - [Troubleshooting](#troubleshooting)
+  - [Accessing Applications](#accessing-applications)
 - [Architecture](#architecture)
+- [🚧 Roadmap](#-roadmap)
 
 ## Motivation ✨
 
@@ -233,6 +235,7 @@ Applications are exposed via `nohup` + `kubectl port-forward`.
 
 | Application | Address                                        | Notes                                                                                           |
 | ----------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Backstage   | [http://localhost:3000](http://localhost:3000) | Enter as a Guest User.                                                                          |
 | Argo CD     | [http://localhost:8080](http://localhost:8080) | Username: `admin` <br/> Password: `12345678`                                                    |
 | Komoplane   | [http://localhost:8090](http://localhost:8090) | -                                                                                               |
 | Localstack  | [http://localhost:4566](http://localhost:4566) | Manage it via: [https://app.localstack.cloud/instances](https://app.localstack.cloud/instances) |
@@ -242,3 +245,11 @@ Applications are exposed via `nohup` + `kubectl port-forward`.
 Below is a high-level architecture diagram showing how the components interact:
 
 > _🚧 Under construction 🚧_
+
+## 🚧 Roadmap
+
+This section outlines upcoming improvements and planned changes for this project:
+
+- [ ] Reduce the responsibility of the `.bootstrap/**/up.sh` scripts: shift tool installation and configuration to ArgoCD so that it manages not only Crossplane claims but also the cluster setup itself — making the environment closer to real-world GitOps practices.
+
+- [ ] Improve the Kyverno GitHub Action: update the CI pipeline to apply only the policies related to the resources changed in a given Pull Request.
