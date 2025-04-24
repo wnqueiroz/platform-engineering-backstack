@@ -253,3 +253,7 @@ This section outlines upcoming improvements and planned changes for this project
 - [ ] Reduce the responsibility of the `.bootstrap/**/up.sh` scripts: shift tool installation and configuration to ArgoCD so that it manages not only Crossplane claims but also the cluster setup itself — making the environment closer to real-world GitOps practices.
 
 - [ ] Improve the Kyverno GitHub Action: update the CI pipeline to apply only the policies related to the resources changed in a given Pull Request.
+
+- [ ] Evaluate the use of the **TeraSky Kubernetes Ingestor plugin** for Backstage ([link](https://github.com/TeraSky-OSS/backstage-plugins/tree/main/plugins/kubernetes-ingestor)): current integration attempts led to infinite loops, very few users seem to rely on it, and documentation is limited.
+
+- [ ] Evaluate the **TeraSky Crossplane Resources plugin** for Backstage ([link](https://github.com/TeraSky-OSS/backstage-plugins/tree/main/plugins/crossplane-resources)): provides a useful UI and presents a compelling case for exposing infrastructure views not just to solution engineers but also to platform engineers. However, it depends on the Kubernetes Ingestor plugin.
