@@ -23,6 +23,14 @@ spec:
   owner: guests
 ---
 apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: argocd
+  description: TODO
+spec:
+  owner: guests
+---
+apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: backstage
@@ -64,3 +72,16 @@ spec:
   lifecycle: production
   owner: guests
   system: localstack
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: argocd-server
+  description: TODO
+  annotations:
+    backstage.io/kubernetes-id: argocd-server
+spec:
+  type: service
+  lifecycle: production
+  owner: guests
+  system: argocd

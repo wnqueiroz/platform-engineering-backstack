@@ -33,6 +33,8 @@ kubectl wait --for=condition=available --timeout=120s deployment/argocd-server -
 }
 
 kubectl patch configmap argocd-cm -n $NS --patch-file $MANIFESTS_DIR/argocd-cm-patch.yaml
+kubectl patch deploy argocd-server -n $NS --patch-file $MANIFESTS_DIR/deployment.yaml
+kubectl patch svc argocd-server -n $NS --patch-file $MANIFESTS_DIR/service.yaml
 kubectl rollout restart deployment argocd-server -n $NS
 kubectl rollout status deployment argocd-server -n $NS
 

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: argocd-server
+    backstage.io/kubernetes-id: argocd-server
+    backstage.io/kubernetes-namespace: argocd-system
+  name: argocd-server
