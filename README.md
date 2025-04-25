@@ -28,7 +28,7 @@ _A ready-to-use environment for modern platform engineering experimentation, com
   - [Troubleshooting](#troubleshooting)
   - [Accessing Applications](#accessing-applications)
 - [Architecture](#architecture)
-- [🚧 Roadmap](#-roadmap)
+- [Roadmap 🚧](#roadmap-)
 
 ## Motivation ✨
 
@@ -244,9 +244,9 @@ Applications are exposed via `nohup` + `kubectl port-forward`.
 
 Below is a high-level architecture diagram showing how the components interact:
 
-> _🚧 Under construction 🚧_
+![Architecture](.docs/high-level-architecture.png)
 
-## 🚧 Roadmap
+## Roadmap 🚧
 
 This section outlines upcoming improvements and planned changes for this project:
 
