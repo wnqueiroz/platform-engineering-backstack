@@ -12,6 +12,8 @@ fi
 
 NS=komoplane-system
 PORT=8090
+BASE_DIR="$(dirname "$0")"
+MANIFESTS_DIR="$BASE_DIR/manifests"
 
 echo "Adding Komodorio Helm repository..."
 helm repo add komodorio https://helm-charts.komodor.io 2>/dev/null || true
@@ -36,6 +38,11 @@ kubectl wait --for=condition=available --timeout=120s deployment/komoplane -n "$
     echo "Komoplane deployment is not ready"
     exit 1
 }
+
+kubectl patch deploy komoplane -n $NS --patch-file $MANIFESTS_DIR/deployment.yaml
+kubectl patch svc komoplane -n $NS --patch-file $MANIFESTS_DIR/service.yaml
+kubectl rollout restart deployment komoplane -n $NS
+kubectl rollout status deployment komoplane -n $NS
 
 # Background port-forward only if not already running
 if ! lsof -i TCP:$PORT >/dev/null 2>&1; then

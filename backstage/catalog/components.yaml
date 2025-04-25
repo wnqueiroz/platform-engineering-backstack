@@ -26,7 +26,15 @@ apiVersion: backstage.io/v1alpha1
 kind: System
 metadata:
   name: argocd
-  description: TODO
+  description: Represents the Argo CD system responsible for GitOps-based application deployment and continuous delivery workflows.
+spec:
+  owner: guests
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: komoplane
+  description: Represents the Komoplane system, offering a web-based UI to enhance the visibility and management of Crossplane resources.
 spec:
   owner: guests
 ---
@@ -77,7 +85,7 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: argocd-server
-  description: TODO
+  description: Argo CD Server component responsible for providing the user interface and API server functionalities for managing application deployments through GitOps workflows.
   annotations:
     backstage.io/kubernetes-id: argocd-server
 spec:
@@ -85,3 +93,17 @@ spec:
   lifecycle: production
   owner: guests
   system: argocd
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: komoplane
+  description: Komoplane provides a user-friendly interface for visualizing, managing, and interacting with Crossplane resources across clusters.
+  annotations:
+    backstage.io/kubernetes-id: komoplane
+spec:
+  type: service
+  lifecycle: production
+  owner: guests
+  system: komoplane
+

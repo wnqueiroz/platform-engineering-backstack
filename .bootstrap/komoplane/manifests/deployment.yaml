@@ -1,0 +1,8 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: komoplane
+  labels:
+    app: komoplane
+    backstage.io/kubernetes-id: komoplane
+    backstage.io/kubernetes-namespace: komoplane-system
