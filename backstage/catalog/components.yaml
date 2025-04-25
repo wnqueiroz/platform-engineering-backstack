@@ -15,6 +15,14 @@ spec:
   owner: guests
 ---
 apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: localstack
+  description: Represents the local development environment that emulates AWS services through LocalStack for testing infrastructure provisioning and integrations.
+spec:
+  owner: guests
+---
+apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: backstage
@@ -43,3 +51,16 @@ spec:
   lifecycle: production
   owner: guests
   system: backstage
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: localstack
+  description: LocalStack simulates AWS cloud services locally, enabling development and testing of infrastructure components without requiring access to real AWS environments.
+  annotations:
+    backstage.io/kubernetes-id: localstack
+spec:
+  type: service
+  lifecycle: production
+  owner: guests
+  system: localstack

@@ -2,6 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: localstack
+  labels:
+    backstage.io/kubernetes-id: localstack
+    backstage.io/kubernetes-namespace: localstack-system
 spec:
   selector:
     app: localstack

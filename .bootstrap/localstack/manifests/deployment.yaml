@@ -4,6 +4,8 @@ metadata:
   name: localstack
   labels:
     app: localstack
+    backstage.io/kubernetes-id: localstack
+    backstage.io/kubernetes-namespace: localstack-system
 spec:
   replicas: 1
   selector:
@@ -13,6 +15,8 @@ spec:
     metadata:
       labels:
         app: localstack
+        backstage.io/kubernetes-id: localstack
+        backstage.io/kubernetes-namespace: localstack-system
     spec:
       containers:
         - name: localstack
