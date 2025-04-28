@@ -35,7 +35,8 @@ spec:
       project: default
       source:
         repoURL: git@github.com:wnqueiroz/platform-engineering-backstack.git
-        targetRevision: main
+        targetRevision: feature-argocd
+        # targetRevision: HEAD
         path: "{{path}}"
         directory:
           recurse: true
