@@ -8,4 +8,4 @@ spec:
   visibilityTimeoutSeconds: 30
   maxMessageSize: 262144
   tags:
-    cost: 1234567
+    cost: lorem-ipsum
