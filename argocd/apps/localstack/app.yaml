@@ -11,8 +11,46 @@ spec:
     targetRevision: 0.6.7
     helm:
       releaseName: localstack
-      valueFiles:
-        - values.yaml
+      # TODO: avoid use inline values
+      values: |
+        replicaCount: 1
+        image:
+          repository: localstack/localstack
+          tag: latest
+        service:
+          type: ClusterIP
+          ports:
+            - port: 4566
+              targetPort: 4566
+              protocol: TCP
+        extraEnvVars:
+          - name: SERVICES
+            value: "s3,sqs,ec2,iam,lambda,dynamodb"
+          - name: DEBUG
+            value: "1"
+          - name: HOSTNAME
+            value: "localhost"
+          - name: LAMBDA_EXECUTOR
+            value: "docker"
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /_localstack/health
+            port: 4566
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /_localstack/health
+            port: 4566
+          initialDelaySeconds: 15
+          periodSeconds: 5
   destination:
     server: https://kubernetes.default.svc
     namespace: localstack-system
