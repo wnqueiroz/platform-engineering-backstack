@@ -5,7 +5,6 @@ set -euo pipefail
 # Configuration
 NS=backstage-system
 BASE_DIR="$(dirname "$0")"
-MANIFESTS_DIR="$BASE_DIR/manifests"
 PORT=3000
 IMAGE="backstage:latest"
 CLUSTER_NAME="platform"
@@ -32,6 +31,7 @@ echo "Checking if Backstage image '$IMAGE' already exists..."
 if ! docker image inspect "$IMAGE" >/dev/null 2>&1; then
     echo "🔨 Building Backstage image $IMAGE..."
     cd ./backstage
+    yarn install
     yarn build:all
     yarn build-image --tag "$IMAGE" --no-cache
     cd ..
@@ -41,9 +41,9 @@ fi
 
 kind load docker-image "$IMAGE" --name "$CLUSTER_NAME"
 
-# Apply manifests to the cluster (idempotent)
-echo "Applying manifests from $MANIFESTS_DIR..."
-kubectl apply -f "$MANIFESTS_DIR" --recursive --namespace "$NS"
+export $(cat .env | xargs) &&
+    sed "s|<placeholder>|$(echo "$GITHUB_TOKEN" | base64)|" $BASE_DIR/manifests/secrets.yaml |
+    kubectl apply -n $NS -f -
 
 # Wait for postgres deployment to be ready
 echo "Waiting for postgres deployment to be ready..."

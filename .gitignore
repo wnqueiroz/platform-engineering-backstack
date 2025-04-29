@@ -20,3 +20,8 @@ Thumbs.db
 *.tmp
 *.out
 *.err
+
+# Ignore env files
+
+.env*
+!.env.example

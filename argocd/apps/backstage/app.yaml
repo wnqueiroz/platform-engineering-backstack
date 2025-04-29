@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: backstage-app
+  namespace: argocd-system
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:wnqueiroz/platform-engineering-backstack.git
+    targetRevision: HEAD
+    path: .bootstrap/backstage/manifests
+    directory:
+      recurse: true
+  ignoreDifferences:
+    - group: ""
+      kind: Secret
+      name: backstage-secrets
+      namespace: backstage-system
+    - group: ""
+      kind: Secret
+      name: postgres-secrets
+      namespace: backstage-system
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: backstage-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true

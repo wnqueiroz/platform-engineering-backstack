@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: localstack-app
+  namespace: argocd-system
+spec:
+  project: default
+  source:
+    repoURL: https://localstack.github.io/helm-charts
+    chart: localstack
+    targetRevision: 0.6.7
+    helm:
+      releaseName: localstack
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: localstack-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

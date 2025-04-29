@@ -11,8 +11,8 @@ if [[ "$(kubectl config current-context)" != "kind-platform" ]]; then
 fi
 
 BASE_DIR="$(dirname "$0")"
-MANIFESTS_DIR="$BASE_DIR/manifests"
 NS="localstack-system"
+PORT=4566
 
 # Create namespace if it does not exist
 if ! kubectl get namespace "$NS" >/dev/null 2>&1; then
@@ -22,19 +22,25 @@ else
     echo "Namespace $NS already exists."
 fi
 
-# Apply manifests (idempotent)
-echo "Applying manifests from $MANIFESTS_DIR to namespace $NS..."
-kubectl apply -f "$MANIFESTS_DIR" --recursive --namespace "$NS"
+# Wait for Deployment to exist
+echo "Waiting for LocalStack Deployment to be created..."
+for i in {1..24}; do
+    if kubectl get deployment/localstack -n "$NS" >/dev/null 2>&1; then
+        echo "LocalStack Deployment found."
+        break
+    fi
+    echo "Deployment not found yet. Retrying in 5s..."
+    sleep 5
+done
 
-# Wait for LocalStack deployment to be available
-echo "Waiting for LocalStack service to be ready..."
-kubectl wait --for=condition=available --timeout=240s deployment/localstack -n "$NS" || {
-    echo "LocalStack deployment is not ready"
+# After Deployment exists, wait for it to become available
+echo "Waiting for LocalStack Deployment to become available..."
+kubectl wait --for=condition=available --timeout=120s deployment/localstack -n "$NS" || {
+    echo "LocalStack Deployment is not ready after waiting."
     exit 1
 }
 
 # Background port-forward (only if not already running)
-PORT=4566
 if ! lsof -i TCP:$PORT >/dev/null 2>&1; then
     if kubectl get svc/localstack -n "$NS" >/dev/null 2>&1; then
         echo "Starting port-forward for LocalStack on port $PORT..."
