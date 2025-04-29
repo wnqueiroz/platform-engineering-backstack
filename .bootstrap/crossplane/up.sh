@@ -18,21 +18,8 @@ TIMEOUT=600
 INTERVAL=5
 ELAPSED=0
 
-echo "Adding Crossplane Helm repository..."
-helm repo add crossplane-stable https://charts.crossplane.io/stable 2>/dev/null || true
-helm repo update
-
-echo "Installing or upgrading Crossplane..."
-helm upgrade --install crossplane \
-    --namespace "$NS" \
-    --create-namespace crossplane-stable/crossplane
-
 echo "Waiting for Crossplane to be ready..."
 kubectl wait --for=condition=available --timeout=120s deployment -n "$NS" -l app.kubernetes.io/name=crossplane
-
-# TODO: remove this later. The Argo CD must be sync this
-echo "Applying AWS providers..."
-kubectl apply -f "$BASE_DIR/providers" --recursive --namespace "$NS"
 
 echo "Ensuring AWS (LocalStack) secret exists..."
 if kubectl get secret aws-secret -n "$NS" >/dev/null 2>&1; then
@@ -63,19 +50,6 @@ while ! check_providers_health; do
     sleep $INTERVAL
     ELAPSED=$((ELAPSED + INTERVAL))
 done
-
-# TODO: remove this later. The Argo CD must be sync this
-echo "Applying provider configs..."
-kubectl apply -f "$BASE_DIR/providers-config" --recursive --namespace "$NS"
-
-echo "Applying functions..."
-kubectl apply -f "$BASE_DIR/functions" --recursive --namespace "$NS"
-
-echo "Applying xrds..."
-kubectl apply -f "$BASE_DIR/xrds" --recursive --namespace "$NS"
-
-echo "Applying compositions..."
-kubectl apply -f "$BASE_DIR/compositions" --recursive --namespace "$NS"
 
 echo "All providers are healthy!"
 echo "✅ Crossplane setup completed successfully!"

@@ -32,6 +32,7 @@ echo "Checking if Backstage image '$IMAGE' already exists..."
 if ! docker image inspect "$IMAGE" >/dev/null 2>&1; then
     echo "🔨 Building Backstage image $IMAGE..."
     cd ./backstage
+    yarn install
     yarn build:all
     yarn build-image --tag "$IMAGE" --no-cache
     cd ..

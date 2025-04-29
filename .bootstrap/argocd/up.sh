@@ -87,6 +87,7 @@ fi
 
 # Apply Argo CD applications or configs
 echo "Applying Argo CD manifests..."
-kubectl apply -f "./argocd/crossplane-claims.yaml"
+kubectl apply -f "./argocd/apps.yaml"
+kubectl apply -f "./argocd/crossplane-system.yaml"
 
 echo "✅ Argo CD setup completed successfully!"
