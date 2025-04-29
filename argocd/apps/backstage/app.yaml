@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: backstage-app
+  namespace: argocd-system
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:wnqueiroz/platform-engineering-backstack.git
+    targetRevision: feature-argocd
+    path: .bootstrap/backstage/manifests
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: backstage-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true

@@ -5,7 +5,6 @@ set -euo pipefail
 # Configuration
 NS=backstage-system
 BASE_DIR="$(dirname "$0")"
-MANIFESTS_DIR="$BASE_DIR/manifests"
 PORT=3000
 IMAGE="backstage:latest"
 CLUSTER_NAME="platform"
@@ -41,10 +40,6 @@ else
 fi
 
 kind load docker-image "$IMAGE" --name "$CLUSTER_NAME"
-
-# Apply manifests to the cluster (idempotent)
-echo "Applying manifests from $MANIFESTS_DIR..."
-kubectl apply -f "$MANIFESTS_DIR" --recursive --namespace "$NS"
 
 # Wait for postgres deployment to be ready
 echo "Waiting for postgres deployment to be ready..."

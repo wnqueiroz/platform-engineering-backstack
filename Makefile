@@ -15,8 +15,8 @@ up: check_bins
 		kind create cluster --name platform; \
 	fi
 
-	# @./.bootstrap/backstage/up.sh
 	@./.bootstrap/argocd/up.sh
+	@./.bootstrap/backstage/up.sh
 	@./.bootstrap/localstack/up.sh
 	@./.bootstrap/crossplane/up.sh
 	@./.bootstrap/komoplane/up.sh
