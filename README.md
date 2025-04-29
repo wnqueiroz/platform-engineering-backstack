@@ -29,6 +29,7 @@ _A ready-to-use environment for modern platform engineering experimentation, com
   - [Accessing Applications](#accessing-applications)
 - [Architecture](#architecture)
 - [Roadmap 🚧](#roadmap-)
+- [How to Contribute](#how-to-contribute)
 
 ## Motivation ✨
 
@@ -80,6 +81,24 @@ Make sure the following dependencies are installed before running any commands:
 - [Docker](https://docs.docker.com/engine/install/) (version 27.4.0 or higher).
 
 > _⚠️ Installation of these basic tools is not covered here as it varies by operating system. The following scripts assume you have each one properly set up._
+
+Before proceeding, make sure you have also completed the following steps:
+
+1. **Fork this repository** to your GitHub account.
+2. **Clone your fork** locally:
+   ```bash
+   git clone https://github.com/<your-username>/<repository-name>.git
+   cd <repository-name>
+   ```
+3. **Create a `.env` file** at the root of the project based on the provided `.env.example`:
+   ```bash
+   cp .env.example .env
+   ```
+4. **Generate a GitHub Personal Access Token** with full `repo` permissions by visiting [https://github.com/settings/tokens/new](https://github.com/settings/tokens/new).
+   ![https://github.com/settings/tokens/new](.docs/github-com-settings-tokens-new.png)
+5. **Update the `.env` file** with your generated token, replacing the `"placeholder"` value.
+
+> 💡 The GitHub token will be used to open pull requests in the repository and to read the catalog file for loading into Backstage.
 
 ## Up & Running
 
@@ -257,3 +276,9 @@ This section outlines upcoming improvements and planned changes for this project
 - [ ] Evaluate the use of the **TeraSky Kubernetes Ingestor plugin** for Backstage ([link](https://github.com/TeraSky-OSS/backstage-plugins/tree/main/plugins/kubernetes-ingestor)): current integration attempts led to infinite loops, very few users seem to rely on it, and documentation is limited.
 
 - [ ] Evaluate the **TeraSky Crossplane Resources plugin** for Backstage ([link](https://github.com/TeraSky-OSS/backstage-plugins/tree/main/plugins/crossplane-resources)): provides a useful UI and presents a compelling case for exposing infrastructure views not just to solution engineers but also to platform engineers. However, it depends on the Kubernetes Ingestor plugin.
+
+## How to Contribute
+
+I welcome contributions! 🎉
+
+Before starting, please take a moment to review the [Contributing Guidelines](./CONTRIBUTING.md).
