@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: git@github.com:wnqueiroz/platform-engineering-backstack.git
-    targetRevision: feature-argocd
+    targetRevision: HEAD
     path: .bootstrap/backstage/manifests
     directory:
       recurse: true
