@@ -11,6 +11,15 @@ spec:
     path: .bootstrap/backstage/manifests
     directory:
       recurse: true
+  ignoreDifferences:
+    - group: ""
+      kind: Secret
+      name: backstage-secrets
+      namespace: backstage-system
+    - group: ""
+      kind: Secret
+      name: postgres-secrets
+      namespace: backstage-system
   destination:
     server: https://kubernetes.default.svc
     namespace: backstage-system
@@ -20,4 +29,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - ApplyOutOfSyncOnly=true
+      - Replace=true

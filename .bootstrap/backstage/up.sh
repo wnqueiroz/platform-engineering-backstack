@@ -41,6 +41,10 @@ fi
 
 kind load docker-image "$IMAGE" --name "$CLUSTER_NAME"
 
+export $(cat .env | xargs) &&
+    sed "s|<placeholder>|$(echo "$GITHUB_TOKEN" | base64)|" $BASE_DIR/manifests/secrets.yaml |
+    kubectl apply -n $NS -f -
+
 # Wait for postgres deployment to be ready
 echo "Waiting for postgres deployment to be ready..."
 kubectl rollout status deployment/postgres -n "$NS" --timeout=120s || {
