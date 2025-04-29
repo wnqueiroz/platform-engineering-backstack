@@ -14,18 +14,6 @@ BASE_DIR="$(dirname "$0")"
 MANIFESTS_DIR="$BASE_DIR/manifests"
 NS="localstack-system"
 
-# Create namespace if it does not exist
-if ! kubectl get namespace "$NS" >/dev/null 2>&1; then
-    echo "Creating namespace: $NS"
-    kubectl create namespace "$NS"
-else
-    echo "Namespace $NS already exists."
-fi
-
-# Apply manifests (idempotent)
-echo "Applying manifests from $MANIFESTS_DIR to namespace $NS..."
-kubectl apply -f "$MANIFESTS_DIR" --recursive --namespace "$NS"
-
 # Wait for LocalStack deployment to be available
 echo "Waiting for LocalStack service to be ready..."
 kubectl wait --for=condition=available --timeout=240s deployment/localstack -n "$NS" || {
