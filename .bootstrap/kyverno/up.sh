@@ -11,10 +11,20 @@ if [[ "$(kubectl config current-context)" != "kind-platform" ]]; then
 fi
 
 NS=kyverno-system
+KYVERNO_CHART=kyverno/kyverno
 POLICIES_DIR=./kyverno
 TIMEOUT=240
 INTERVAL=5
 ELAPSED=0
+
+echo "Adding Kyverno Helm repository..."
+helm repo add kyverno https://kyverno.github.io/kyverno/ 2>/dev/null || true
+helm repo update
+
+echo "Installing or upgrading Kyverno via Helm..."
+helm upgrade --install kyverno "$KYVERNO_CHART" \
+    --namespace "$NS" \
+    --create-namespace
 
 echo "Waiting for Kyverno webhook to be ready..."
 kubectl wait deployment/kyverno-admission-controller \
