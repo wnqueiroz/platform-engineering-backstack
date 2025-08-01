@@ -1,0 +1,9 @@
+apiVersion: platform.hooli.tech/v1alpha1
+kind: XQueueClaim
+metadata:
+  name: myqueue-pretalk
+spec:
+  location: US
+  providerName: default
+  visibilityTimeoutSeconds: 30
+  maxMessageSize: 262144
