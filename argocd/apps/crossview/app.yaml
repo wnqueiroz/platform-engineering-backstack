@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: crossview-app
+  namespace: argocd-system
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:wnqueiroz/platform-engineering-backstack.git
+    targetRevision: HEAD
+    path: .bootstrap/crossview/manifests
+    directory:
+      recurse: true
+  ignoreDifferences:
+    - group: ""
+      kind: Secret
+      name: crossview-secrets
+      namespace: crossview-system
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: crossview-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true

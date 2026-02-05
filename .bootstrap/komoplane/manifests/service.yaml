@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: komoplane
-    backstage.io/kubernetes-id: komoplane
-    backstage.io/kubernetes-namespace: komoplane-system
-  name: komoplane
