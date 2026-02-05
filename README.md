@@ -62,7 +62,7 @@ This repository brings together essential tools to build and experiment with a l
 
 - **LocalStack**: A fully functional local AWS cloud emulator that enables developers to test and build applications interacting with AWS services without needing a real AWS account.
 
-- **Komoplane**: A project to experiment with Crossplane resource visualization. The goal is to help Crossplane users understand control plane resource structure and accelerate troubleshooting.
+- **Crossview**: A web-based UI for visualizing and managing Crossplane resources. It provides an intuitive interface to explore XRDs, Compositions, and Claims, helping users understand the control plane structure and accelerate troubleshooting.
 
 - **Helm**: A package manager for Kubernetes that simplifies deploying complex applications using reusable _charts_.
 
@@ -227,7 +227,7 @@ This command will:
 
 - Check if required dependencies are installed.
 - Create a Kubernetes cluster named `platform` (if it does not already exist).
-- Run bootstrap scripts for LocalStack, Crossplane, Komoplane, and ArgoCD.
+- Run bootstrap scripts for LocalStack, Crossplane, Crossview, and ArgoCD.
 
 To tear down the environment, run:
 
@@ -257,7 +257,7 @@ Applications are exposed via `nohup` + `kubectl port-forward`.
 | ----------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | Backstage   | [http://localhost:3000](http://localhost:3000) | Enter as a Guest User.                                                                          |
 | Argo CD     | [http://localhost:8080](http://localhost:8080) | Username: `admin` <br/> Password: `12345678`                                                    |
-| Komoplane   | [http://localhost:8090](http://localhost:8090) | -                                                                                               |
+| Crossview   | [http://localhost:3001](http://localhost:3001) | -                                                                                               |
 | Localstack  | [http://localhost:4566](http://localhost:4566) | Manage it via: [https://app.localstack.cloud/instances](https://app.localstack.cloud/instances) |
 
 ## Architecture

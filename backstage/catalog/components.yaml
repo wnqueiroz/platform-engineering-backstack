@@ -33,8 +33,8 @@ spec:
 apiVersion: backstage.io/v1alpha1
 kind: System
 metadata:
-  name: komoplane
-  description: Represents the Komoplane system, offering a web-based UI to enhance the visibility and management of Crossplane resources.
+  name: crossview
+  description: Represents the Crossview system, offering a web-based UI to enhance the visibility and management of Crossplane resources.
 spec:
   owner: guests
 ---
@@ -97,13 +97,26 @@ spec:
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: komoplane
-  description: Komoplane provides a user-friendly interface for visualizing, managing, and interacting with Crossplane resources across clusters.
+  name: crossview
+  description: Crossview provides a user-friendly interface for visualizing, managing, and interacting with Crossplane resources across clusters.
   annotations:
-    backstage.io/kubernetes-id: komoplane
+    backstage.io/kubernetes-id: crossview
 spec:
   type: service
   lifecycle: production
   owner: guests
-  system: komoplane
+  system: crossview
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: crossview-postgres
+  description: PostgreSQL database instance used to persist Crossview data and application state.
+  annotations:
+    backstage.io/kubernetes-id: crossview-postgres
+spec:
+  type: service
+  lifecycle: production
+  owner: guests
+  system: crossview
 

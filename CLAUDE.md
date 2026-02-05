@@ -32,7 +32,7 @@ This is a **Platform Engineering BACK Stack** - a local development environment 
 │   ├── argocd/         # Installs ArgoCD, configures repo, applies apps
 │   ├── backstage/      # Deploys Backstage to cluster
 │   ├── crossplane/     # Installs Crossplane, providers, and provider configs
-│   ├── komoplane/      # Deploys Crossplane visualization tool
+│   ├── crossview/      # Deploys Crossplane visualization tool
 │   ├── kyverno/        # Installs Kyverno policy engine
 │   └── localstack/     # Deploys LocalStack for AWS emulation
 ├── argocd/
@@ -196,6 +196,7 @@ Ensure both are kept in sync. If you modify XRD schemas, update corresponding Ky
 - ArgoCD: `argocd-system`
 - Backstage: `backstage-system`
 - Crossplane: `crossplane-system`
+- Crossview: `crossview-system`
 - Kyverno: `kyverno-system`
 - LocalStack: `localstack-system`
 - Claims: deployed in namespace specified in claim YAML (e.g., `default`)
