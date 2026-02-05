@@ -264,7 +264,7 @@ Applications are exposed via `nohup` + `kubectl port-forward`.
 
 Below is a high-level architecture diagram showing how the components interact:
 
-![Architecture](.docs/high-level-architecture.png)
+![Architecture](.docs/high-level-architecture-current.png)
 
 ## Roadmap 🚧
 
