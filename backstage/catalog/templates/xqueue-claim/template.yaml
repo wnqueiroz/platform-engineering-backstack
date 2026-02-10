@@ -67,7 +67,6 @@ spec:
       name: Publish to GitHub
       action: publish:github:pull-request
       input:
-        allowedHosts: ['github.com']
         repoUrl: github.com?repo=platform-engineering-backstack&owner=wnqueiroz
         branchName: feature/add-xqueue-${{ parameters.queueName }}
         title: 'feat(xqueue): add claim for ${{ parameters.queueName }}'
